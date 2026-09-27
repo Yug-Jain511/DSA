@@ -8,48 +8,47 @@
 
 class Solution:
     def findInMountainArray(self, target: int, mountainArr: 'MountainArray') -> int:
-        #this will get us value of peak (there is only 1)
         n = mountainArr.length()
-        peak = 0
-        low,high = 1,n-2
+        low,high= 1,n-2
         while(low<=high):
-            mid = low+(high-low)//2
-
-            mid_value = mountainArr.get(mid)
-            next = mountainArr.get(mid + 1)
-            prev = mountainArr.get(mid - 1)
-
-            if(mid_value>next) and (mid_value>prev):
+            mid = (low)+((high-low)//2)
+            mid_value = mountainArr.get(mid) 
+            mid_value_less = mountainArr.get(mid-1)
+            mid_value_more = mountainArr.get(mid+1)
+            if(mid_value)>(mid_value_more) and (mid_value)>(mid_value_less):
                 peak = mid
                 break
-            elif(mid_value<next):
+            elif(mid_value)<(mid_value_more):
                 low = mid+1
             else:
-                high = mid - 1 
-
-        #now searching left of peak for target
+                high = mid - 1
         low,high = 0,peak
         while(low<=high):
-            mid = low+(high-low)//2
+            mid = (low)+((high-low)//2)
+            mid_value = mountainArr.get(mid) 
+            if(mid_value==target):
+                return mid 
+            elif(mid_value>target):
+                high = mid-1
+            else:
+                low = mid+1
+        low,high = peak+1,n-1
+        while(low<=high):
+            mid = (low)+((high-low)//2)
             mid_value = mountainArr.get(mid)
-
             if(mid_value==target):
                 return mid
             elif(mid_value<target):
-                low = mid+1
+                high = mid - 1
             else:
-                high = mid-1
-#searching right side with modified binary search
-        low,high = peak+1,n-1
-        while(low<=high):
-            mid = low+(high-low)//2
-            mid_value = mountainArr.get(mid)
-
-            if(mid_value==target):
-                return mid
-            elif(mid_value>target):
-                low = mid+1
-            else:
-                high = mid-1
-
+                low  = mid + 1
         return -1
+
+            
+
+           
+        
+
+        
+        
+        
